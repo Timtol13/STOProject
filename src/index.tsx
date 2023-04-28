@@ -10,6 +10,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <App />
+    <div className={'back'}><img src={'/background.jpeg'} /></div>
   </React.StrictMode>
 );
 
