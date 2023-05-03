@@ -1,0 +1,36 @@
+.createOrder{
+    height: 720px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    a{
+        font-size: 124px;
+        color: #fff;
+        text-decoration: none;
+        text-shadow: 0px -2px 4px #fff, 0px -2px 10px #FF3, 0px -10px 20px #F90, 0px -20px 40px #C33;
+    }
+    .createOrderForm{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        input{
+            margin-bottom: 20px;
+            width: 220px;
+            height: 27px;
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0px -2px 4px #fff, 0px -2px 10px #FF3, 0px -10px 20px #F90, 0px -20px 40px #C33;
+        }
+        button{
+            padding: 5px;
+            width: 120px;
+            height: 40px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0px -2px 4px #fff, 0px -2px 10px #FF3, 0px -10px 20px #F90, 0px -20px 40px #C33;
+        }
+    }
+}

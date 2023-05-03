@@ -8,6 +8,8 @@ const instance = axios.create(
         }
     }
 )
+const user = localStorage.getItem('authSTO')
+const username = JSON.parse(user? user: '').username
 const tokens = localStorage.getItem('tokens') || null
 const token = JSON.parse(tokens? tokens: '{}').access
 const refresh = JSON.parse(tokens? tokens: '{}').refresh
@@ -32,6 +34,7 @@ export const authAPI = {
             if(e.data){
                 localStorage.setItem('authSTO', JSON.stringify(data))
             }
+            localStorage.setItem('isLoggin', 'true')
         }).then(() => {
             window.location.replace('/home')
         })
@@ -47,7 +50,16 @@ export const authAPI = {
 }
 
 export const ordersAPI = {
-    postOrder(data:{title: string, description: string}){
-        return instanceVerify.post('')
+    postOrder(user: string | undefined, title: string | undefined, orderType: string | undefined, adress: string | undefined, price: number | undefined, time: string | undefined, status: string | undefined){
+        return instanceVerify.post('orders/', {user, title, orderType, adress, price, time, status})
+    },
+    getUserOrders(){
+        return instanceVerify.get(`orders/?search=${username}`)
+    }
+}
+
+export const servicesAPI = {
+    getServices(){
+        return instance.get('services/')
     }
 }

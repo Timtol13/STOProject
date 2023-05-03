@@ -84,7 +84,7 @@ export const MakeOrder = () => {
     const [price, setPrice] = useState<string>()
     return (
         <div className={'main'}>
-                <h1><a href={'/home'}>ç<sub>˙</sub>†<sub>˙</sub>ø</a></h1>
+            <h1><a href={'/home'}>ç<sub>˙</sub>†<sub>˙</sub>ø</a></h1>
             <div className={'orders'}>
             {orders?.map((ord, index) => {
                 return (
@@ -93,8 +93,10 @@ export const MakeOrder = () => {
                             handleOpen()
                             setTitle(ord.title)
                             setDescription(ord.description)
-                            setPrice(ord.description)
-                            }}>{ord.title}</button>
+                            setPrice(ord.price)
+                            }}>
+                            {ord.title}
+                        </button>
                         <Modal
                             open={open}
                             onClose={handleClose}>
@@ -102,7 +104,7 @@ export const MakeOrder = () => {
                                 <h1>{Ordtitle}</h1>
                                 <p>{description}</p><br/>
                                 <h3>{price}</h3>
-                                <a href={`/${title?.replace(' ', '-')}/${Ordtitle?.replace(' ', '-')}`}>Заказать</a>
+                                <a href={`/${title?.replace(' ', '-')}/${Ordtitle?.replace(' ', '-')}/${price?.replace(' ', '-')}`}>Заказать</a>
                             </Box>
                         </Modal>
                     </div>

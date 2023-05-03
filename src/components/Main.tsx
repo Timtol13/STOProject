@@ -7,6 +7,8 @@ import { Login } from './auth/login/Login'
 import { Registration } from './auth/registration/Registration'
 import { MakeOrder } from './MakeOrder/MakeOrder'
 import { CreateOrder } from './MakeOrder/CreateOrder/CreateOrder'
+import { Profile } from './Profile/Profile'
+import { servicesAPI } from './api/api'
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -20,6 +22,14 @@ const style = {
     borderRadius: '20px',
   };
 
+type ServicesType = {
+    image: '',
+    title: '',
+    description: '',
+    openDescription: '',
+    price: ''
+}
+
 export const Main = () => { 
     return (
         <div className={'container'}>
@@ -27,9 +37,10 @@ export const Main = () => {
                 <Routes>
                     <Route path={'/home'} element={<MainBlock />} />
                     <Route path={'/makeOrder/:title'} element={<MakeOrder />} />
-                    <Route path={'/:title/:orderTitle'} element={<CreateOrder />}/>
+                    <Route path={'/:title/:orderTitle/:price'} element={<CreateOrder />}/>
                     <Route path={'/login'} element={<Login />} />
                     <Route path={'/registration'} element={<Registration />} />
+                    <Route path={'/profile'} element={<Profile />} />
                 </Routes>
             </BrowserRouter>
         </div>
@@ -47,25 +58,13 @@ export const MainBlock = () => {
         </div>
     )
 }
-
-export const FirstBlock = () => {
-    return (
-        <div className={'container_block'} id={'aboutus'}>
-            <h1>ç<sub>˙</sub>†<sub>˙</sub>ø</h1>
-            <div className='services_link'>
-                <a type={'button'} href={'#services'}>Наши услуги
-                <img src={'arrows.png'} width={120}/></a>
-            </div>
-        </div>
-    )
-}
-export const Services = () => {
+export const Header =() => {
     const [header, setHeader] = useState<HTMLElement>()
     const [login, setLogin] = useState<boolean>()
-    const il = localStorage.getItem('authSTO')
+    const il = localStorage.getItem('isLoggin')
     useEffect(() => {
         setHeader(document.getElementById('header') as HTMLElement)
-        if(il)
+        if(il === 'true')
             setLogin(true)
         else{
             setLogin(false)
@@ -85,16 +84,8 @@ export const Services = () => {
             }
         }
     }
-    console.log(login)
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const [title, setTitle] = useState<string>('')
-    const [desc, setDesc] = useState<string>('')
-    const [price, setPrice] = useState<string>('')
     return (
-        <div className={'container_block services sec_img'} id={'services'}>
-            <nav id={'header'}>
+        <nav id={'header'}>
                 <ul>
                     <li><a href={'#services'}>Услуги</a></li>
                     <li><a href={'#aboutus'}>О нас</a></li>
@@ -103,9 +94,48 @@ export const Services = () => {
                     <li><a href={'#contacts'}>Контакты</a></li>
                     {!login && <li><a href={'/login'}>Log-in</a></li> }
                     {!login && <li><a href={'/registration'}>Sign-in</a></li> }
+                    {login && <li><a href={'/profile'}>Профиль</a></li>}
                     
                 </ul>
             </nav>
+    )
+}
+export const FirstBlock = () => {
+    return (
+        <div className={'container_block'} id={'aboutus'}>
+            <h1>ç<sub>˙</sub>†<sub>˙</sub>ø</h1>
+            <div className='services_link'>
+                <a type={'button'} href={'#services'}>Наши услуги
+                <img src={'arrows.png'} width={120}/></a>
+            </div>
+        </div>
+    )
+}
+export const Services = () => {
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+    const [title, setTitle] = useState<string>('')
+    const [desc, setDesc] = useState<string>('')
+    const [price, setPrice] = useState<string>('')
+    const api = 'http://127.0.0.1:8000'
+    const [services, setServices] = useState<ServicesType[]>([])
+    useEffect(() => {
+        servicesAPI.getServices().then(e => {
+            setServices(e.data)
+        })
+    }, [])
+    return (
+        <div className={'container_block services sec_img'} id={'services'}>
+            <Header />
+            {services?.map(service => {
+                return (
+                    <div>
+                        <img src={`${api}${service.image}`}/>
+                        {service.title}
+                    </div>
+                )
+            })}
             <div className={'services_main'}>
                 <ul>
                     <li>
