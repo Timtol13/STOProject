@@ -23,7 +23,6 @@ const style = {
   };
 
 type ServicesType = {
-    image: '',
     title: '',
     description: '',
     openDescription: '',
@@ -118,7 +117,6 @@ export const Services = () => {
     const [title, setTitle] = useState<string>('')
     const [desc, setDesc] = useState<string>('')
     const [price, setPrice] = useState<string>('')
-    const api = 'http://127.0.0.1:8000'
     const [services, setServices] = useState<ServicesType[]>([])
     useEffect(() => {
         servicesAPI.getServices().then(e => {
@@ -128,77 +126,26 @@ export const Services = () => {
     return (
         <div className={'container_block services sec_img'} id={'services'}>
             <Header />
-            {services?.map(service => {
-                return (
-                    <div>
-                        <img src={`${api}${service.image}`}/>
-                        {service.title}
-                    </div>
-                )
-            })}
             <div className={'services_main'}>
                 <ul>
-                    <li>
-                        <button onClick={() => {
-                            handleOpen()
-                            setTitle('Выездной ремонт')
-                            setDesc("В данный момент доступны следующие типы ремонта при выезде мастера: Ремонт генератора, стартера, запуск двигателя, диагностика, 'лектрика (частично)")
-                            setPrice('Цены на выездной ремонт: от 60 BYN')
-                        }} className={'service'}>
-                            <img src={'viizdnoyRemont.png'} />
-                            <h3>Выездной ремонт</h3>
-                            <p>
-                                Ремонт генератора, стартера.<br/> Запуск двигателя, диагностика<br/> Электрика (частично)
-                            </p>
-                        </button>
-                    </li>
-                    <li>
-                        <button className={'service'} onClick={() => {
-                            handleOpen()
-                            setTitle('Стационарный ремонт')
-                            setDesc("В данный момент доступны следующие типы ремонта: Ремонт генератора, стартера, запуск двигателя, диагностика, электрика")
-                            setPrice('Цены на стационарный ремонт: от 30 BYN')
-                        }}>
-                            <img src={'stacRem.png'} />
-                            <h3>Стационарный ремонт</h3>
-                            <p>
-                                Ремонт генератора, стартера.<br/> Запуск двигателя, диагностика<br/> Электрика
-                            </p>
-                        </button>
-                    </li>
-                    <li>
-                        <button className={'service'} onClick={() => {
-                            handleOpen()
-                            setTitle('Диагностика')
-                            setDesc("В данный момент доступны следующие типы диагностики: Компьютерная диагностика систем автомобиля, компьютерная диагностика двигателя, диагностика электрооборудования.")
-                            setPrice('Цены на диагностику авто: от 20 BYN (в некоторых случаях диагностика может проводиться бесплатно)')
-                        }}>
-                            <img src={'diagnostick.png'} />
-                            <h3>Диагностика</h3>
-                            <p>
-                            Компьютерная диагностика систем автомобиля.<br />
-                            Компьютерная диагностика двигателя.<br />
-                            Диагностика электрооборудования.
-                            </p>
-                        </button>
-                    </li>
-                    <li>
-                        <button className={'service'} onClick={() => {
-                            handleOpen()
-                            setTitle('Автоэлектрика')
-                            setDesc("В данный момент доступны следующие типы ремонта автоэлектрики: Ремонт электрики авто, ремонт сигнализации,ремонт электрических стеклоподьемников, ремонт стеклоочестителей")
-                            setPrice('Цены на ремонт автоэлектроники: от 40 BYN')
-                        }}>
-                            <img src={'electicity.png'} />
-                            <h3>Автоэлектрика</h3>
-                            <p>
-                            Ремонт электрики авто<br />
-                            Ремонт сигнализации<br />
-                            Ремонт электрических стеклоподьемников<br />
-                            Ремонт стеклоочестителей
-                            </p>
-                        </button>
-                    </li>
+                {services?.map(service => {
+                    return (
+                        <li>
+                            <button onClick={() => {
+                                handleOpen()
+                                setTitle(service.title)
+                                setDesc(service.openDescription)
+                                setPrice(`Цены на выездной ремонт: ${service.price}`)
+                            }} className={'service'}>
+                                <img src={'viizdnoyRemont.png'} />
+                                <h3>{service.title}</h3>
+                                <p>
+                                    {service.description}
+                                </p>
+                            </button>
+                        </li>
+                    )
+                })}
                 </ul>
             </div>
             <Modal

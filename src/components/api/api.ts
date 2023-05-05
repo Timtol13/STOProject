@@ -8,6 +8,14 @@ const instance = axios.create(
         }
     }
 )
+const instanceWithPhoto = axios.create(
+    {
+        baseURL: 'http://127.0.0.1:8000/api/',
+        headers: {
+            "Content-Type": "image/*"
+        }
+    }
+)
 const user = localStorage.getItem('authSTO')
 const username = JSON.parse(user? user: '').username
 const tokens = localStorage.getItem('tokens') || null
@@ -55,11 +63,17 @@ export const ordersAPI = {
     },
     getUserOrders(){
         return instanceVerify.get(`orders/?search=${username}`)
+    },
+    postSuccessOrder(user: string | undefined, order: number | undefined, stars: number | undefined, feedback: string | undefined){
+        return instanceVerify.post('successOrder/', {user, order, stars, feedback})
+    },
+    putOrder(user: string | undefined, title: string | undefined, orderType: string | undefined, adress: string | undefined, price: number | undefined, time: string | undefined, status: string | undefined){
+        return instanceVerify.put('orders/', {user, title, orderType, adress, price, time, status})
     }
 }
 
 export const servicesAPI = {
     getServices(){
-        return instance.get('services/')
+        return instanceWithPhoto.get('services/')
     }
 }
